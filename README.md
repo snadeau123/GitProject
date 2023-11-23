@@ -53,3 +53,15 @@ To update all modules:
 `gitproject --update`
 
 This will update each module to the latest commit on the specified branch or clone it if it's not present.
+
+
+### GitIgnore Update
+
+To update the `.gitignore` file with the paths of all modules:
+
+`gitproject --gitignore`
+
+This will add the paths of the modules to the `.gitignore` file, ensuring they are not tracked by the main project's Git repository.
+
+
+
