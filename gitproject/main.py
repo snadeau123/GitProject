@@ -3,7 +3,7 @@ import os
 import git
 import argparse
 from termcolor import colored
-from git.exc import GitCommandError, InvalidGitRepositoryError
+from git.exc import GitCommandError, InvalidGitRepositoryError, NoSuchPathError
 
 
 def parse_config(file_path):
@@ -29,6 +29,8 @@ def get_repo_status(repo_path):
     try:
         repo = git.Repo(repo_path)
     except InvalidGitRepositoryError:
+        return 'Not a git repository', None
+    except NoSuchPathError:
         return 'Not a git repository', None
 
     if repo.is_dirty(untracked_files=True):
@@ -90,6 +92,24 @@ def update_modules(config):
         print_status_message(result, f"{module['name']}: {result}")
 
 
+def update_gitignore(config, gitignore_file='.gitignore'):
+    paths_to_add = {m['path'] for m in config['modules']}
+    try:
+        with open(gitignore_file, 'r+') as file:
+            existing_paths = set(file.read().splitlines())
+            new_paths = paths_to_add - existing_paths
+
+            if new_paths:
+                file.write('\n' + '\n'.join(new_paths) + '\n')
+                print("Updated .gitignore with new module paths.")
+            else:
+                print("No new paths to add to .gitignore.")
+    except FileNotFoundError:
+        with open(gitignore_file, 'w') as file:
+            file.write('\n'.join(paths_to_add) + '\n')
+        print(".gitignore created and updated with module paths.")
+
+
 def main():
     parser = argparse.ArgumentParser(description='Manage project modules')
 
@@ -97,15 +117,19 @@ def main():
     mode_group = parser.add_argument_group("mode", "Mode of operation")
     mode_group.add_argument("-s", "--status", action="store_true", help="Show status of modules")
     mode_group.add_argument("-u", "--update", action="store_true", help="Update modules")
+    parser.add_argument("-g", "--gitignore", action="store_true", help="Update .gitignore with module paths")
+
 
     args = parser.parse_args()
 
-    config = parse_config('../../.gitproject')
+    config = parse_config('./.gitproject')
 
     if args.status:
         show_status(config)
     elif args.update:
         update_modules(config)
+    elif args.gitignore:
+        update_gitignore(config)
 
 
 if __name__ == "__main__":
