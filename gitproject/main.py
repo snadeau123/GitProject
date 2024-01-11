@@ -142,10 +142,10 @@ def main():
         print("Error: .gitproject file not found.")
         return
 
-    config = parse_config(gitproject_file)
-
     project_root = os.path.dirname(gitproject_file)
     os.chdir(project_root)
+
+    config = parse_config(gitproject_file)
 
     if args.status:
         show_status(config)
