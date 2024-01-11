@@ -1,12 +1,13 @@
 # GitProject
 
-GitProject is a Python-based tool for managing and synchronizing multiple Git repositories within a project. It allows users to easily update modules, check their status, and ensure that the project is in sync with its dependencies.
+GitProject, a Python tool, enhances the management and synchronization of multiple Git repositories in projects with actively developed modules. It automates the update process, replacing the manual efforts required by traditional Git submodules. This automation ensures that projects consistently integrate the latest changes, making it ideal for projects evolving rapidly or decomposing into independently developed components.
 
 ## Features
 
 - **Status Check**: Quickly view the status of all modules, including whether they are up-to-date, ahead, behind, or have local modifications.
-- **Module Update**: Automatically update all modules to their latest versions, and clone any missing modules.
-- **Colored Output**: Easy-to-read status updates with colored output indicating the status of each module.
+- **Module Update**: Automatically update all modules to their latest versions, and clone any missing modules, with minimal manual intervention.
+- **Colored Output**: Easy-to-read status updates with colored output indicating the status of each module, enhancing the overall user experience.
+
 
 ## Installation
 
