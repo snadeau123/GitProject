@@ -30,6 +30,7 @@ Create a `.projectenv` JSON configuration file in your project directory with th
             "path": "path/to/module",
             "url": "https://repository.url",
             "branch": "branch_name"  // optional, defaults to 'master'
+            "commit": "commit_hash"  // optional
         },
         // Add more modules as needed
     ]

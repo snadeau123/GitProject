@@ -47,6 +47,10 @@ def get_repo_status(repo_path):
         return 'Local modifications', None
 
     try:
+        # Handle detached HEAD state, if it's detached, and we reached this point, it's because it's up-to-date.
+        if repo.head.is_detached:
+            return 'Up-to-date', repo.head.commit.hexsha
+
         remote_ref = f'origin/{repo.active_branch.name}'
         repo.remote().fetch()
         local_commit = repo.head.commit
